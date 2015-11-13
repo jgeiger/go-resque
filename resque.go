@@ -2,7 +2,8 @@ package resque
 
 import (
 	"encoding/json"
-	"github.com/kavu/go-resque/driver"
+
+	"github.com/jgeiger/go-resque/driver"
 )
 
 var drivers = make(map[string]driver.Enqueuer)

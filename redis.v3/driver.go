@@ -1,13 +1,13 @@
 package resque
 
 import (
-	"github.com/fiorix/go-redis/redis"
-	"github.com/kavu/go-resque"
-	"github.com/kavu/go-resque/driver"
+	"github.com/jgeiger/go-resque"
+	"github.com/jgeiger/go-resque/driver"
+	"gopkg.in/redis.v3"
 )
 
 func init() {
-	resque.Register("redis-go", &drv{})
+	resque.Register("redis.v3", &drv{})
 }
 
 type drv struct {
@@ -20,10 +20,5 @@ func (d *drv) SetClient(client interface{}) {
 }
 
 func (d *drv) ListPush(queue string, jobJSON string) (int64, error) {
-	listLength, err := d.client.RPush(queue, jobJSON)
-	if err != nil {
-		return -1, err
-	}
-
-	return int64(listLength), err
+	return d.client.RPush(queue, jobJSON).Result()
 }
